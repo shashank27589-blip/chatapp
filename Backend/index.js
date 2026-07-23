@@ -17,13 +17,16 @@ app.use(cors());
 
 const PORT = process.env.PORT || 4001;
 const URI = process.env.MONGODB_URI;
+const DB_NAME = process.env.MONGODB_DB;
 
-try {
-  mongoose.connect(URI);
-  console.log("Connected to MongoDB");
-} catch (error) {
-  console.log(error);
-}
+const mongoConnectionString = DB_NAME && !/mongodb(?:\+srv)?:\/\/[^/]+\/[^?]+/.test(URI)
+  ? URI.replace(/\/?$/, "") + "/" + DB_NAME
+  : URI;
+
+mongoose
+  .connect(mongoConnectionString)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => console.log(error));
 
 //routes
 app.use("/api/user", userRoute);
