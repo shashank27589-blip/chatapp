@@ -78,4 +78,17 @@ Open [http://localhost:3001](http://localhost:3001).
 3. Search for the other account by name and select it to open a chat.
 4. Send messages; online status appears when the other account is connected.
 
-The app is configured for local development. To let people connect from other devices or networks, deploy the frontend and backend and configure the public frontend URL, Socket.IO endpoint, and Atlas network access for the deployed backend.
+The commands above run the app locally. Use the deployment steps below to publish it for other people.
+
+## Deploy to Render
+
+The included `render.yaml` deploys the frontend build, API, and Socket.IO server together as one web service in Singapore. This keeps the app on one HTTPS origin, which is needed for its login cookie and realtime connection.
+
+1. Sign in to Render and choose **New > Blueprint**.
+2. Connect the `shashank27589-blip/chatapp` GitHub repository and select the `main` branch.
+3. When Render asks for `MONGODB_URI`, enter the Atlas application's connection string. Keep it private.
+4. Apply the Blueprint and wait for the first deploy to finish.
+5. In the new Render service, open **Connect > Outbound** and copy the outbound IP ranges for the service's region. Add those ranges to the Atlas project's **Network Access** list, then redeploy/restart the Render service if its first database connection failed.
+6. Open the service's `onrender.com` URL and create accounts to use the app.
+
+Render's Free web services sleep after 15 minutes without incoming HTTP requests or WebSocket messages and can take about a minute to wake. Choose a paid instance if you need the site to stay responsive continuously. See [Render's free service limits](https://render.com/docs/free) and [outbound IP documentation](https://render.com/docs/outbound-ip-addresses).
