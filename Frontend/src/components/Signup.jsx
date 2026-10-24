@@ -40,9 +40,12 @@ function Signup() {
         setAuthUser(response.data);
       })
       .catch((error) => {
-        if (error.response) {
-          toast.error("Error: " + error.response.data.error);
-        }
+        const message =
+          error.response?.data?.error ||
+          error.response?.data?.message ||
+          error.message ||
+          "Signup failed. Check that the backend is running and try again.";
+        toast.error("Error: " + message);
       });
   };
   return (

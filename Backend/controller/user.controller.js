@@ -1,9 +1,13 @@
 import User from "../models/user.model.js";
+import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import createTokenAndSaveCookie from "../jwt/generateToken.js";
 export const signup = async (req, res) => {
   const { fullname, email, password, confirmPassword } = req.body;
   try {
+    if (!fullname?.trim() || !email?.trim() || !password || !confirmPassword) {
+      return res.status(400).json({ error: "Please fill in all fields" });
+    }
     if (password !== confirmPassword) {
       return res.status(400).json({ error: "Passwords do not match" });
     }
@@ -31,7 +35,12 @@ export const signup = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.error("Signup failed:", error.message);
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({
+        error: "Database unavailable. Check that your current IP is allowed in MongoDB Atlas Network Access.",
+      });
+    }
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -53,7 +62,12 @@ export const login = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
+    console.error("Login failed:", error.message);
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({
+        error: "Database unavailable. Check that your current IP is allowed in MongoDB Atlas Network Access.",
+      });
+    }
     res.status(500).json({ error: "Internal server error" });
   }
 };
