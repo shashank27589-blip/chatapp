@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.drawer {
+  min-height: 100dvh;
+}
+
 .flex-1::-webkit-scrollbar {
   display: none;
 }

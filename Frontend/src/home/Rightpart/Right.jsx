@@ -12,17 +12,14 @@ function Right() {
     return setSelectedConversation(null);
   }, [setSelectedConversation]);
   return (
-    <div className="w-full bg-slate-900 text-gray-300">
-      <div>
+    <div className="flex h-dvh min-h-0 w-full flex-col overflow-hidden bg-slate-900 text-gray-300">
+      <div className="flex min-h-0 flex-1 flex-col">
         {!selectedConversation ? (
           <NoChatSelected />
         ) : (
           <>
             <Chatuser />
-            <div
-              className=" flex-1 overflow-y-auto"
-              style={{ maxHeight: "calc(92vh - 8vh)" }}
-            >
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
               <Messages />
             </div>
             <Typesend />
@@ -47,7 +44,7 @@ const NoChatSelected = () => {
         >
           <CiMenuFries className="text-white text-xl" />
         </label>
-        <div className="flex h-screen items-center justify-center">
+        <div className="flex h-dvh items-center justify-center px-4">
           <h1 className="text-center">
             Welcome{" "}
             <span className="font-semibold text-xl">

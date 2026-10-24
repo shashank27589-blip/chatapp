@@ -25,9 +25,9 @@ export const sendMessage = async (req, res) => {
     // await conversation.save()
     // await newMessage.save();
     await Promise.all([conversation.save(), newMessage.save()]); // run parallel
-    const receiverSocketId = getReceiverSocketId(receiverId);
-    if (receiverSocketId) {
-      io.to(receiverSocketId).emit("newMessage", newMessage);
+    const receiverSocketIds = getReceiverSocketId(receiverId);
+    if (receiverSocketIds?.size) {
+      io.to(receiverId).emit("newMessage", newMessage);
     }
     res.status(201).json(newMessage);
   } catch (error) {

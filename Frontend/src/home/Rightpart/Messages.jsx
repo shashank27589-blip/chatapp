@@ -10,25 +10,19 @@ function Messages() {
 
   const lastMsgRef = useRef();
   useEffect(() => {
-    setTimeout(() => {
-      if (lastMsgRef.current) {
-        lastMsgRef.current.scrollIntoView({
-          behavior: "smooth",
-        });
-      }
-    }, 100);
+    const timeout = window.setTimeout(() => {
+      lastMsgRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    }, 50);
+    return () => window.clearTimeout(timeout);
   }, [messages]);
   return (
-    <div
-      className="flex-1 overflow-y-auto"
-      style={{ minHeight: "calc(92vh - 8vh)" }}
-    >
+    <div className="min-h-full px-2 py-3 sm:px-4">
       {loading ? (
         <Loading />
       ) : (
         messages.length > 0 &&
-        messages.map((message) => (
-          <div key={message._id} ref={lastMsgRef}>
+        messages.map((message, index) => (
+          <div key={message._id} ref={index === messages.length - 1 ? lastMsgRef : null}>
             <Message message={message} />
           </div>
         ))

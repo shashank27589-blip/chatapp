@@ -21,13 +21,13 @@ function App() {
               //   <Left />
               //   <Right />
               // </div>
-              <div className="drawer lg:drawer-open">
+              <div className="drawer lg:drawer-open h-dvh min-h-0 overflow-hidden">
                 <input
                   id="my-drawer-2"
                   type="checkbox"
                   className="drawer-toggle"
                 />
-                <div className="drawer-content flex flex-col items-center justify-center">
+                <div className="drawer-content h-dvh min-h-0 overflow-hidden">
                   <Right />
                 </div>
                 <div className="drawer-side">
