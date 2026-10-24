@@ -20,7 +20,10 @@ const URI = process.env.MONGODB_URI;
 const DB_NAME = process.env.MONGODB_DB;
 
 const mongoConnectionString = DB_NAME && !/mongodb(?:\+srv)?:\/\/[^/]+\/[^?]+/.test(URI)
-  ? URI.replace(/\/?$/, "") + "/" + DB_NAME
+  ? (() => {
+      const [baseUri, query] = URI.split("?");
+      return `${baseUri.replace(/\/$/, "")}/${DB_NAME}${query ? `?${query}` : ""}`;
+    })()
   : URI;
 
 mongoose
